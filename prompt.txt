@@ -1,0 +1,2 @@
+Please paraphrase the following text, correct any factual inaccuracies and ensuring all the information remains intact: [text].
+Only return the corrected version with the same number of sentences.
