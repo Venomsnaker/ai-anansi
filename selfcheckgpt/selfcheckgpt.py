@@ -2,7 +2,6 @@ from openai import OpenAI
 from tqdm import tqdm
 import numpy as np
 from typing import List
-import os
 
 class SelfCheckGPT:
     def __init__(
@@ -28,7 +27,7 @@ class SelfCheckGPT:
         
     def completion(self, prompt: str):
         if self.client_type == "openai":
-            chat_result = self.client.chat.completions.create(
+            response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
                     {
@@ -39,7 +38,7 @@ class SelfCheckGPT:
                 temperature=0.0,
                 max_tokens=5
             )
-            return chat_result['choices'][0]['message']['content']
+            return response.choices[0].message.content
         else:
             raise ValueError("client_type not implemented")
         
@@ -74,8 +73,8 @@ class SelfCheckGPT:
             for sample_i, sample in enumerate(sampled_passages):
                 sample = sample.replace("\n", " ")
                 prompt = self.prompt_template.format(context=sample, sentence=sentence)
-                generate_text = self.completion(prompt=prompt)
-                score = self.chat_result_postprocessing(text=generate_text)
+                generated_text = self.completion(prompt=prompt)
+                score = self.chat_result_postprocessing(text=generated_text)
                 scores[sent_i, sample_i] = score
         scores_per_sentence = scores.mean(axis=-1)
         return scores_per_sentence
