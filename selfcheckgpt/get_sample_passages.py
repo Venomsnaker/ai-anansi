@@ -31,8 +31,7 @@ class GetSamplePassages:
                         "content": prompt
                     }
                 ],
-                temperature=0.0,
-                max_tokens=5
+                temperature=1.0,
             )
             return response.choices[0].message.content
         else:
